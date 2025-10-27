@@ -1,0 +1,50 @@
+/* src/styles/novedades.css */
+
+/* Estilos para el contenedor de cada novedad */
+.novedades-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 30px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.novedades-item h1 {
+  color: #2e64a1;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.novedades-item h2 {
+  color: #6da9ed;
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.novedades-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 15px 0;
+  display: block;
+}
+
+.novedades-item p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Línea de separación entre novedades */
+.novedades-item hr {
+  margin: 20px 0 0 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+/* Si tu página novedades.js importa los estilos, recuerda incluir la importación */
+/* en src/app/novedades/page.js */
+/* import '../../styles/novedades.css'; */

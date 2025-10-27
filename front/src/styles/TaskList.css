@@ -1,0 +1,146 @@
+/* --- Estilos para TaskList --- */
+.task-list-container {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.task-list-title {
+    font-size: 1.5rem; /* H2 */
+    font-weight: 700;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    color: var(--color-primary, #2e64a1);
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-list > li:not(:last-child) .task-item {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.task-list-empty {
+    padding: 40px;
+    text-align: center;
+    color: #888;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.task-list-empty p {
+    margin: 0;
+}
+
+.task-list-empty-subtitle {
+    font-size: 0.9rem;
+    margin-top: 5px !important;
+}
+
+/* --- Estilos para TaskItem --- */
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    transition: background-color 0.1s ease;
+}
+
+.task-item:hover {
+    background-color: #f9f9f9;
+}
+
+/* Indicador de Prioridad */
+.priority-indicator {
+    width: 6px;
+    height: 40px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.priority-high {
+    background-color: #d9534f; /* Rojo */
+}
+
+.priority-medium {
+    background-color: #f0ad4e; /* Amarillo/Naranja */
+}
+
+.priority-low {
+    background-color: #5cb85c; /* Verde */
+}
+
+.task-content {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.task-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-meta {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+}
+
+.task-time {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-primary);
+}
+
+.task-category {
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: #e6f0ff;
+    color: var(--color-primary);
+    padding: 2px 6px;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+/* Tarea completada */
+.task-completed .task-title {
+    text-decoration: line-through;
+    color: #aaa;
+}
+.task-completed .task-description {
+    color: #999;
+}
+.task-completed .priority-indicator {
+    background-color: #ccc !important;
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+    .task-item {
+        padding: 10px;
+    }
+    .task-meta {
+        /* Ocultar categoría en móviles si es necesario para ahorrar espacio */
+    }
+}

@@ -1,0 +1,100 @@
+/* Variables de color basadas en tu material (azul principal: #2e64a1) */
+:root {
+    --color-primary: #2e64a1;
+    --color-primary-hover: #4c76a5;
+    --color-text-dark: #333;
+    --color-text-medium: #555;
+    --color-border: #ccc;
+    --color-background: #f8f8f8;
+}
+
+/* Contenedor principal del formulario */
+.task-form-container {
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px solid var(--color-primary);
+}
+
+.form-title {
+    font-size: 1.75rem; /* 28px */
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-background);
+    padding-bottom: 10px;
+}
+
+/* Layout de la cuadrícula para inputs (2 columnas) */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group.wide {
+    grid-column: 1 / -1; /* Ocupa ambas columnas si está en la cuadrícula */
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--color-text-medium);
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    box-sizing: border-box; /* Asegura que padding no afecte el ancho total */
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-field:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(46, 100, 161, 0.2);
+}
+
+/* Estilos para el botón de acción */
+.form-actions {
+    margin-top: 25px;
+    text-align: right;
+}
+
+.submit-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background-color: var(--color-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Responsividad simple: en pantallas pequeñas, la cuadrícula pasa a ser una sola columna */
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

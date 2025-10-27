@@ -1,0 +1,94 @@
+/* Importación de fuente sugerida en tu material */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+/* Variables de color basadas en tu material (azul principal: #2e64a1) */
+:root {
+    --color-primary: #2e64a1;
+    --color-secondary: #6da9ed;
+    --color-text-dark: #333;
+    --color-text-light: #fff;
+    --color-background-main: #f4f4f4;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-background-main);
+    color: var(--color-text-dark);
+}
+
+/* Contenedor principal para centrar el contenido, según PDF */
+.holder {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: var(--color-primary);
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin: 0;
+}
+
+h2 {
+    color: var(--color-primary);
+    font-weight: 400;
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Estilos de la página de inicio */
+.main-content {
+    padding: 20px 0;
+}
+
+.page-header {
+    margin-bottom: 30px;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Estilos básicos para novedades y contacto */
+.novedades-item {
+    padding: 15px 0;
+}
+
+.novedades-item h3 {
+    color: var(--color-primary);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.novedades-item h4 {
+    color: #555;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.novedades-img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.novedades-item hr {
+    margin-top: 20px;
+    border: 0;
+    border-top: 1px solid #ddd;
+}
+
+.contact-info p {
+    margin: 10px 0;
+}

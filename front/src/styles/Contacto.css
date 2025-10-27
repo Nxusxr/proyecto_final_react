@@ -1,0 +1,78 @@
+/* src/styles/contacto.css */
+
+.contacto {
+  display: flex;
+  gap: 24px;
+}
+
+/* Regla para asegurar que los divs ocupen todo el ancho en columnas */
+.contacto > div {
+  width: 100%;
+}
+
+.datos p {
+  font-size: 14px;
+}
+
+.datos ul li {
+  font-size: 13px;
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Estilos de formulario */
+.formulario p {
+  display: flex;
+  align-items: flex-start; 
+  margin-bottom: 10px;
+}
+
+.formulario p label {
+  min-width: 80px;
+  display: block;
+}
+
+.formulario p input,
+.formulario p textarea {
+  width: 100%;
+  background: #ddd;
+  border-radius: 5px;
+  border: 1px solid #999;
+  font-size: 14px;
+  padding: 6px 10px;
+  box-sizing: border-box; /* Importante para que el padding no desborde el ancho */
+}
+
+.formulario textarea {
+  resize: none;
+  height: 150px;
+}
+
+/* Alineación específica para el submit (que no tiene label) */
+.formulario input[type="submit"] {
+  background: #6da9ed;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  color: white;
+  font-size: 16px;
+  padding: 6px 20px;
+  width: auto;
+  position: relative;
+  left: 80px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.formulario input[type="submit"]:hover {
+  background-color: #2e64a1;
+}
+
+/* Adaptación responsive */
+@media (max-width: 768px) {
+  .contacto {
+    flex-direction: column; /* Apila las columnas */
+  }
+  .formulario input[type="submit"] {
+    left: 0;
+    margin-top: 10px;
+  }
+}
