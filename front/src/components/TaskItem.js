@@ -26,13 +26,18 @@ const getPriorityClass = (priority) => {
  * @param {object} props - Propiedades del componente.
  * @param {object} props.task - Objeto de la tarea a mostrar.
  */
-export function TaskItem({ task }) {
+export function TaskItem({ task, onToggleStatus }) {
   const priorityClass = getPriorityClass(task.priority);
-  // Determina si la tarea está completada para aplicar un estilo visual diferente
-  const statusClass = task.status === 'completed' ? 'task-completed' : '';
+  
+  const isCompleted = task.status === 1;
+  const statusClass = isCompleted ? 'task-completed' : '';
 
   return (
-    <div className={`task-item ${statusClass}`}>
+    <div 
+      className={`task-item ${statusClass}`}
+      onClick={() => onToggleStatus(task.id, task.status)}
+      style={{ cursor: 'pointer' }}
+    >
       
       {/* Indicador visual de Prioridad */}
       <div className={`priority-indicator ${priorityClass}`} title={`Prioridad: ${task.priority}`}></div>
@@ -49,7 +54,8 @@ export function TaskItem({ task }) {
       {/* Hora y Categoría */}
       <div className="task-meta">
         <span className="task-time">{task.time}</span>
-        <span className="task-category">{task.category}</span>
+        {/* Indicador visual de completado en la meta */}
+        <span className="task-category">{isCompleted ? 'COMPLETADA' : task.category}</span> 
       </div>
     </div>
   );

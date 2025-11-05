@@ -25,7 +25,7 @@ export function TaskList({ tasks }) {
       <ul className="task-list">
         {tasks.map((task) => (
           <li key={task.id}>
-            <TaskItem task={task} />
+            <TaskItem task={task} onToggleStatus={onToggleStatus} /> 
           </li>
         ))}
       </ul>

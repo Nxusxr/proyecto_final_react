@@ -1,73 +1,108 @@
+// /front/src/app/page.js
 'use client'; 
 
 import { TaskList } from '../components/TaskList'; 
 import TaskForm from '../components/TaskForm'; 
-import React, { useState } from 'react';
-// Importamos el CSS global que tiene los estilos base (como .holder)
+import React, { useState, useEffect } from 'react'; // Agregamos useEffect
 import '../styles/globals.css'; 
 
-// Datos de PRUEBA Iniciales (Mock Data)
-const initialTasks = [
-  {
-    id: 't-1',
-    title: 'Reunión de planificación de sprint',
-    description: 'Revisar backlog, asignar tareas y estimar tiempo.',
-    date: '2025-10-09',
-    time: '10:00',
-    status: 'in-progress',
-    priority: 'high',
-    category: 'work',
-  },
-  {
-    id: 't-2',
-    title: 'Comprar ingredientes para cena',
-    description: 'Necesito pollo y vegetales frescos.',
-    date: '2025-10-09',
-    time: '18:00',
-    status: 'pending',
-    priority: 'medium',
-    category: 'personal',
-  },
-  {
-    id: 't-3',
-    title: 'Ejercicio matutino',
-    description: 'Correr 30 minutos o hacer yoga.',
-    date: '2025-10-09',
-    time: '07:00',
-    status: 'completed',
-    priority: 'low',
-    category: 'personal',
-  },
-];
+const API_BASE_URL = 'http://localhost:5000/api/tareas'; 
 
 export default function HomePage() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState([]); // Inicializa vacío
+  const [loading, setLoading] = useState(true);
 
-  // Función para agregar una nueva tarea (pasada al TaskForm)
-  const handleAddTask = (newTask) => {
-    // Agregamos la nueva tarea al inicio de la lista
-    setTasks(prevTasks => [newTask, ...prevTasks]);
-    // Uso de console.log en lugar de alert()
-    console.log(`Tarea "${newTask.title}" agregada!`);
+  // ----------------------------------------------------
+  // FUNCIÓN PARA CARGAR TAREAS (READ - GET)
+  // ----------------------------------------------------
+  const fetchTasks = async () => {
+    setLoading(true);
+    try {
+      // 1. Llama a tu API REST de Express
+      const response = await fetch(API_BASE_URL);
+      if (!response.ok) {
+        throw new Error('No se pudo obtener la lista de tareas');
+      }
+      const data = await response.json();
+      setTasks(data);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  // Carga las tareas cuando arranca el componente (al iniciar la app)
+  useEffect(() => {
+    fetchTasks();
+  }, []); 
+
+  // ----------------------------------------------------
+  // FUNCIÓN PARA AÑADIR TAREA (CREATE - POST)
+  // ----------------------------------------------------
+  const handleAddTask = async (formData) => {
+    const newTaskPayload = {
+      ...formData,
+      status: 0,
+      category: 'personal',
+    };
+    
+    try {
+      const response = await fetch(API_BASE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTaskPayload),
+      });
+
+      if (response.ok) {
+        console.log(`Tarea "${newTaskPayload.title}" agregada a la BD!`);
+        fetchTasks(); // Recarga la lista para mostrar la nueva tarea
+      } else {
+        throw new Error('Error en el servidor al guardar la tarea.');
+      }
+    } catch (error) {
+      console.error('Error al agregar tarea:', error);
+    }
+  };
+
+  // ----------------------------------------------------
+  // FUNCIÓN PARA CAMBIAR ESTADO (UPDATE - PUT)
+  // ----------------------------------------------------
+  const handleToggleStatus = async (id, currentStatus) => {
+    const newStatus = currentStatus === 1 ? 0 : 1;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      
+      if (response.ok) {
+        fetchTasks(); // Recarga la lista para reflejar el cambio
+      } else {
+        throw new Error('Error al actualizar el estado.');
+      }
+    } catch (error) {
+      console.error('Error al cambiar el estado:', error);
+    }
+  };
+
 
   return (
     <div className="main-content">
       <div className="holder">
-        <header className="page-header">
-            <h1>
-              Mi Itinerario Diario
-            </h1>
-            <p className="page-subtitle">
-              Tareas para {new Date().toLocaleDateString('es-ES', { dateStyle: 'full' })}
-            </p>
-        </header>
+        {/* ... (Header) */}
 
-        {/* Formulario para agregar nuevas tareas */}
         <TaskForm onAddTask={handleAddTask} /> 
 
-        {/* Lista de tareas */}
-        <TaskList tasks={tasks} />
+        {loading ? (
+            <div className="task-list-empty">
+                <p>Cargando tareas...</p>
+            </div>
+        ) : (
+             <TaskList tasks={tasks} onToggleStatus={handleToggleStatus} /> 
+        )}
       </div>
     </div>
   );
