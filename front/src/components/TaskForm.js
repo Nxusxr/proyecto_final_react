@@ -3,26 +3,13 @@
 import React, { useState } from 'react';
 import '../styles/TaskForm.css'; // Importamos el archivo de estilos CSS
 
-// Estructura de Tarea (solo para referencia)
-/*
-{
-  id: string,
-  title: string,
-  description: string,
-  date: string,
-  time: string,
-  status: 'pending' | 'in-progress' | 'completed',
-  priority: 'low' | 'medium' | 'high',
-  category: string,
-}
-*/
-
 const initialFormState = {
   title: '',
   description: '',
   date: new Date().toISOString().split('T')[0], // Fecha de hoy por defecto
   time: '10:00',
   priority: 'medium',
+  category: 'personal',
 };
 
 export default function TaskForm({ onAddTask }) {
@@ -42,9 +29,7 @@ export default function TaskForm({ onAddTask }) {
     // Simulación de creación de Tarea con un ID temporal
     const newTask = {
       ...formData,
-      id: Date.now().toString(), // ID simple por ahora
-      status: 'pending', 
-      category: 'personal', 
+      status: 0, // Pendiente por defecto
     };
     
     // Llama a la función que viene por prop para manejar la lógica
@@ -115,6 +100,24 @@ export default function TaskForm({ onAddTask }) {
             <option value="low">Baja</option>
           </select>
         </div>
+
+        {/* Categoría */}
+        <div className="form-group">
+          <label htmlFor="category">Categoría</label>
+          <select 
+            id="category" 
+            name="category" 
+            value={formData.category} 
+            onChange={handleChange} 
+            className="input-field"
+          >
+            <option value="personal">Personal</option>
+            <option value="work">Trabajo</option>
+            <option value="study">Estudio</option>
+            <option value="health">Salud</option>
+          </select>
+        </div>
+
       </div>
 
       {/* Descripción */}
