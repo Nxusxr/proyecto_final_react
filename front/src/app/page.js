@@ -44,7 +44,6 @@ export default function HomePage() {
     const newTaskPayload = {
       ...formData,
       status: 0,
-      category: 'personal',
     };
     
     try {
