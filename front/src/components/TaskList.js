@@ -8,8 +8,9 @@ import '../styles/TaskList.css';
  * Componente que renderiza la lista completa de tareas.
  * @param {object} props - Propiedades del componente.
  * @param {Array<object>} props.tasks - Array de objetos de tareas.
- */
-export function TaskList({ tasks }) {
+ * @param {function} props.onToggleStatus - Función para manejar el cambio de estado.
+*/
+export function TaskList({ tasks, onToggleStatus }) {
   if (tasks.length === 0) {
     return (
       <div className="task-list-empty">
