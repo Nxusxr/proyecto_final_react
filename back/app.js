@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors'); // Para permitir conexión desde Next.js (3000)
 var session = require('express-session');
+var fileUpload = require('express-fileupload');
 
 // REQUIRES DE RUTAS
 var indexRouter = require('./routes/index');
@@ -49,7 +50,10 @@ app.use(session({
 
 // 2e. Contenido Estático
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
 
 // ====================================================================
 // 3. MIDDLEWARE PERSONALIZADO (Definición del 'secured')
