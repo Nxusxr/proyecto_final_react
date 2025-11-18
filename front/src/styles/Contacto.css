@@ -46,6 +46,7 @@
 .formulario textarea {
   resize: none;
   height: 150px;
+  margin-left: 10px;
 }
 
 /* Alineación específica para el submit (que no tiene label) */
@@ -65,6 +66,8 @@
 .formulario input[type="submit"]:hover {
   background-color: #2e64a1;
 }
+
+
 
 /* Adaptación responsive */
 @media (max-width: 768px) {
