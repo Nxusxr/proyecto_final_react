@@ -5,6 +5,7 @@ var router = express.Router();
 var tareasModel = require('../models/tareasModel');
 var novedadesModel = require('./../models/novedadesModel');
 var cloudinary = require('cloudinary').v2;
+var nodemailer = require('nodemailer');
 
 /* GET - Listar todas las tareas (Filtrado por user_id) */
 router.get('/tareas', async function(req, res, next) {
@@ -101,6 +102,41 @@ router.get('/novedades', async function(req, res, next) {
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al obtener las novedades' });
+    }
+});
+
+/*
+ * POST - Envío de formulario de contacto
+ */
+router.post('/contacto', async (req, res) => {
+    const mail = {
+        from: process.env.SMTP_USER,
+        to: process.env.SMTP_TO,
+        subject: 'Contacto Web',
+        html: `${req.body.nombre} se contactó a través de la web y quiere más información a este correo: ${req.body.email} <br> Además, hizo el siguiente comentario: ${req.body.comentario} <br> Su tel es: ${req.body.telefono}`
+    }
+
+    const transport = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS
+        }
+    });
+
+    try {
+        await transport.sendMail(mail);
+        res.status(201).json({
+            error: false,
+            message: 'Mensaje enviado'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: true,
+            message: 'Error al enviar el mensaje'
+        });
     }
 });
 
