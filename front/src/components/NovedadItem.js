@@ -1,14 +1,24 @@
 import React from 'react';
-// Nota: NovedadItem usará estilos de globals o de un futuro novedades.css
+// Importamos los estilos. Asegúrate que la ruta sea correcta.
+import '../styles/Novedades.css'; 
 
-export default function NovedadItem() {
+// El componente ahora recibe 'props' [cite: 1405]
+const NovedadItem = (props) => {
+  // Desestructuramos las props que vamos a recibir [cite: 1405]
+  const { title, subtitle, imagen, body } = props;
+
   return (
     <div className="novedades-item">
-      <h1>Título de la Novedad</h1>
-      <h2>Subtítulo de la Noticia</h2>
-      <img src="https://fakeimg.pl/960x120" alt="Imagen de la Novedad" />
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab beatae quos laudantium? Aspernatur, voluptate dolores. Fugiat blanditiis delectus officiis animi consequatur aspernatur, ea excepturi at nisi iste modi. Praesentium, possimus!</p>
+      {/* Usamos las props en lugar de texto estático */}
+      <h1>{title}</h1> 
+      <h2>{subtitle}</h2>
+      {imagen && <img src={imagen} alt={title} />}
+      
+      <div dangerouslySetInnerHTML={{ __html: body }} />
+      
       <hr />
     </div>
   );
 }
+
+export default NovedadItem;
