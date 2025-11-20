@@ -1,6 +1,5 @@
 import React from 'react';
 import { TaskItem } from './TaskItem';
-// Importamos el CSS para el contenedor
 import '../styles/TaskList.css'; 
 
 
@@ -10,7 +9,7 @@ import '../styles/TaskList.css';
  * @param {Array<object>} props.tasks - Array de objetos de tareas.
  * @param {function} props.onToggleStatus - Función para manejar el cambio de estado.
 */
-export function TaskList({ tasks, onToggleStatus }) {
+export function TaskList({ tasks, onToggleStatus, onDeleteTask}) {
   if (tasks.length === 0) {
     return (
       <div className="task-list-empty">
@@ -26,7 +25,11 @@ export function TaskList({ tasks, onToggleStatus }) {
       <ul className="task-list">
         {tasks.map((task) => (
           <li key={task.id}>
-            <TaskItem task={task} onToggleStatus={onToggleStatus} /> 
+            <TaskItem 
+              task={task} 
+              onToggleStatus={onToggleStatus} 
+              onDeleteTask={onDeleteTask} // AGREGADO
+            /> 
           </li>
         ))}
       </ul>

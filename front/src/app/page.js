@@ -87,11 +87,38 @@ export default function HomePage() {
     }
   };
 
+  // ----------------------------------------------------
+  // FUNCIÓN PARA ELIMINAR TAREA (DELETE) // NUEVO
+  // ----------------------------------------------------
+
+  const handleDeleteTask = async (id) => {
+    if (!window.confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
+        return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/${id}`, {
+        method: 'DELETE', // Método DELETE
+      });
+      
+      if (response.ok) {
+        console.log(`Tarea con ID ${id} eliminada correctamente.`);
+        fetchTasks(); // Recarga la lista
+      } else {
+        throw new Error('Error al eliminar la tarea.');
+      }
+    } catch (error) {
+      console.error('Error al eliminar la tarea:', error);
+    }
+  };
 
   return (
     <div className="main-content">
       <div className="holder">
-        {/* ... (Header) */}
+        <header className="page-header">
+            <h1>Itinerario de Tareas</h1>
+            <p className="page-subtitle">Organiza tu día con eficiencia.</p>
+        </header>
 
         <TaskForm onAddTask={handleAddTask} /> 
 
@@ -100,7 +127,11 @@ export default function HomePage() {
                 <p>Cargando tareas...</p>
             </div>
         ) : (
-             <TaskList tasks={tasks} onToggleStatus={handleToggleStatus} /> 
+             <TaskList 
+                tasks={tasks} 
+                onToggleStatus={handleToggleStatus} 
+                onDeleteTask={handleDeleteTask}
+             /> 
         )}
       </div>
     </div>
