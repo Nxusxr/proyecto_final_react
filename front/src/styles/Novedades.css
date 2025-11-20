@@ -25,10 +25,10 @@
 }
 
 .novedades-item img {
-  width: 100%;
-  height: auto;
+  width: 650px;
+  object-fit: cover;
   border-radius: 4px;
-  margin: 0 auto 15px;
+  margin: 15px 0;
   display: block;
 }
 
