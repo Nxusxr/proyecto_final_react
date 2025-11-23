@@ -55,7 +55,6 @@ async function modificarNovedadById(obj, id) {
     }
 }
 
-// Actualizamos los exports
 module.exports = { 
     getNovedades, 
     insertNovedad,

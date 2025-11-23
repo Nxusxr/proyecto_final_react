@@ -11,7 +11,6 @@ var pool = mysql.createPool({
     database: process.env.DB_NAME
 });
 
-// Promisify Pool Query para usar async/await
 pool.query = util.promisify(pool.query);
 
 module.exports = pool;

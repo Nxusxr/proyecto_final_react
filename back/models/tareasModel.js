@@ -1,6 +1,6 @@
 // /back/models/tareasModel.js
 
-var pool = require('../bd'); // Conexión a la base de datos
+var pool = require('../bd');
 
 // 1. SELECT (Leer todas las tareas)
 async function getTareas(userId) {
@@ -41,7 +41,6 @@ async function deleteTarea(id, userId) {
 // 4. UPDATE (Modificar una tarea por ID)
 async function updateTarea(obj, id, userId) {
     try {
-        // CORREGIDO: Actualiza SOLO si el ID de la tarea Y el ID del usuario coinciden (Seguridad)
         var query = "update tareas set ? where id = ? AND user_id = ?";
         var rows = await pool.query(query, [obj, id, userId]);
         return rows;

@@ -5,8 +5,8 @@ var novedadesModel = require('../../models/novedadesModel');
 
 var util = require('util');
 var cloudinary = require('cloudinary').v2;
-const uploader = util.promisify(cloudinary.uploader.upload); // [cite: 2021]
-const destroy = util.promisify(cloudinary.uploader.destroy); // [cite: 2144]
+const uploader = util.promisify(cloudinary.uploader.upload);
+const destroy = util.promisify(cloudinary.uploader.destroy);
 
 /*
  * GET: Listado de novedades
@@ -14,7 +14,7 @@ const destroy = util.promisify(cloudinary.uploader.destroy); // [cite: 2144]
 router.get('/', async function (req, res, next) {
     var novedades = await novedadesModel.getNovedades();
     
-    // M6U3 - Mapeo para incluir la imagen [cite: 2062-2081]
+    // M6U3 - Mapeo para incluir la imagen
     novedades = novedades.map(novedad => {
         if (novedad.img_id) {
             const imagen = cloudinary.image(novedad.img_id, {
@@ -44,9 +44,9 @@ router.get('/', async function (req, res, next) {
 /*
  * GET: Muestra el formulario de alta
  */
-router.get('/agregar', (req, res, next) => { // [cite: 998]
-    res.render('admin/agregar', { // [cite: 999]
-        layout: 'admin/layout' // [cite: 1000]
+router.get('/agregar', (req, res, next) => {
+    res.render('admin/agregar', {
+        layout: 'admin/layout'
     });
 });
 
@@ -55,9 +55,9 @@ router.get('/agregar', (req, res, next) => { // [cite: 998]
  */
 router.post('/agregar', async (req, res, next) => {
     try {
-        var img_id = ''; // [cite: 2031]
+        var img_id = '';
         
-        // M6U3 - Lógica de subida de imagen [cite: 2032-2035]
+        // M6U3 - Lógica de subida de imagen
         if (req.files && Object.keys(req.files).length > 0) {
             imagen = req.files.imagen;
             img_id = (await uploader(imagen.tempFilePath)).public_id;
@@ -94,7 +94,7 @@ router.post('/agregar', async (req, res, next) => {
 router.get('/eliminar/:id', async (req, res, next) => {
     var id = req.params.id;
 
-    // M6U3 - Borrar imagen de Cloudinary [cite: 2181-2183]
+    // M6U3 - Borrar imagen de Cloudinary
     let novedad = await novedadesModel.getNovedadById(id);
     if (novedad.img_id) {
         await (destroy(novedad.img_id));
@@ -107,12 +107,12 @@ router.get('/eliminar/:id', async (req, res, next) => {
 /*
  * GET: Muestra el formulario de modificar
  */
-router.get('/modificar/:id', async (req, res, next) => { // [cite: 2952]
-    let id = req.params.id; // [cite: 2953]
-    let novedad = await novedadesModel.getNovedadById(id); // [cite: 2954]
-    res.render('admin/modificar', { // [cite: 2954]
+router.get('/modificar/:id', async (req, res, next) => {
+    let id = req.params.id;
+    let novedad = await novedadesModel.getNovedadById(id);
+    res.render('admin/modificar', {
         layout: 'admin/layout',
-        novedad // [cite: 2957]
+        novedad
     });
 });
 
@@ -121,30 +121,30 @@ router.get('/modificar/:id', async (req, res, next) => { // [cite: 2952]
  */
 router.post('/modificar', async (req, res, next) => {
     try {
-        // M6U3 - Lógica de modificación de imagen [cite: 2147-2161]
+        // M6U3 - Lógica de modificación de imagen
         let img_id = req.body.img_original;
         let borrar_img_vieja = false;
 
-        if (req.body.img_delete === "1") { // [cite: 2148]
+        if (req.body.img_delete === "1") {
             img_id = null;
-            borrar_img_vieja = true; // [cite: 2150]
+            borrar_img_vieja = true;
         } else {
             if (req.files && Object.keys(req.files).length > 0) {
                 imagen = req.files.imagen;
-                img_id = (await uploader(imagen.tempFilePath)).public_id; // [cite: 2156-2157]
-                borrar_img_vieja = true; // [cite: 2158]
+                img_id = (await uploader(imagen.tempFilePath)).public_id;
+                borrar_img_vieja = true;
             }
         }
         if (borrar_img_vieja && req.body.img_original) {
-            await (destroy(req.body.img_original)); // [cite: 2159-2160]
+            await (destroy(req.body.img_original));
         }
 
-        // Preparamos el objeto para el modelo [cite: 2168-2171]
+        // Prepara el objeto para el modelo
         let obj = {
             titulo: req.body.titulo,
             subtitulo: req.body.subtitulo,
             cuerpo: req.body.cuerpo,
-            img_id // Incluimos el nuevo img_id (o null, o el original)
+            img_id
         }
         
         await novedadesModel.modificarNovedadById(obj, req.body.id);

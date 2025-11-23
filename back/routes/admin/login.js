@@ -21,7 +21,7 @@ router.post('/', async (req, res, next) => {
         var data = await usuariosModel.getUserByUsernameAndPassword(usuario, password);
 
         if (data != null) {
-            // Éxito: Crea variables de sesión
+            // Crea variables de sesión
             req.session.id_usuario = data.id;
             req.session.nombre = data.usuario;
             res.redirect('/admin/novedades');
@@ -37,7 +37,7 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-// GET - Cierre de sesión (Logout)
+// GET - Cierre de sesión
 router.get('/logout', function (req, res, next) {
     req.session.destroy();
     res.render('admin/login', {

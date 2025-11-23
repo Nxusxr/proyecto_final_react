@@ -12,8 +12,6 @@ var session = require('express-session');
 var fileUpload = require('express-fileupload');
 
 // REQUIRES DE RUTAS
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
 var loginRouter = require('./routes/admin/login');
 var adminNovedadesRouter = require('./routes/admin/novedades');
@@ -24,23 +22,21 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-// ====================================================================
-// 2. MIDDLEWARE GLOBAL (El orden es CRÍTICO: Primero procesar el request)
-// ====================================================================
+/* MIDDLEWARE GLOBAL (Procesa el request) */
 
-// 2a. CORS: Debe ir primero si la app es consumida por otro origen
+/* CORS para el puerto 3000 */
 app.use(cors({
     origin: 'http://localhost:3000' 
 }));
 
-// 2b. LOGGER (Morgan)
+/* LOGGER */
 app.use(logger('dev'));
 
-// 2c. BODY PARSERS: Es fundamental que estos se ejecuten antes de las rutas que usan req.body
+/* BODY PARSERS */
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// 2d. COOKIES y SESIÓN: Necesario para que req.session exista
+/* COOKIES y SESIÓN para req.session */
 app.use(cookieParser());
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -48,18 +44,16 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// 2e. Contenido Estático
+/* Contenido Estático */
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: '/tmp/'
 }));
 
-// ====================================================================
-// 3. MIDDLEWARE PERSONALIZADO (Definición del 'secured')
-// ====================================================================
+/* MIDDLEWARE PERSONALIZADO para la ruta secured */
 
-var secured = async (req, res, next) => { // Lógica de tu curso
+var secured = async (req, res, next) => {
     try {
         if (req.session.id_usuario) {
             next();
@@ -72,37 +66,25 @@ var secured = async (req, res, next) => { // Lógica de tu curso
 };
 
 
-// ====================================================================
-// 4. ASIGNACIÓN DE RUTAS (Una sola vez, las rutas específicas primero)
-// ====================================================================
+/* ASIGNACIÓN DE RUTAS */
 
-// Rutas API y Admin (tus rutas del proyecto)
+// Rutas API y Admin
 app.use('/api', apiRouter);
 app.use('/admin/login', loginRouter);
 // Ruta protegida con middleware 'secured'
 app.use('/admin/novedades', secured, adminNovedadesRouter); 
 
-// Rutas de plantilla (pueden ser omitidas si solo usas el front de Next.js)
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+/* MANEJO DE ERRORES */
 
-
-// ====================================================================
-// 5. MANEJO DE ERRORES (Al final)
-// ====================================================================
-
-// catch 404 and forward to error handler
+// CATCH 404
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// MANEJO GENERAL DE ERRORES
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });

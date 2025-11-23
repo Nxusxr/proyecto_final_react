@@ -7,7 +7,7 @@ var novedadesModel = require('./../models/novedadesModel');
 var cloudinary = require('cloudinary').v2;
 var nodemailer = require('nodemailer');
 
-/* GET - Listar todas las tareas (Filtrado por user_id) */
+/* GET - Listar todas las tareas */
 router.get('/tareas', async function(req, res, next) {
     try {
         const userId = req.session.id_usuario || 1;
@@ -20,7 +20,7 @@ router.get('/tareas', async function(req, res, next) {
     }
 });
 
-/* POST - Agregar una nueva tarea (Añadiendo user_id) */
+/* POST - Agregar una nueva tarea */
 router.post('/tareas', async (req, res, next) => {
     try {
         const userId = req.session.id_usuario || 1;
@@ -39,7 +39,7 @@ router.post('/tareas', async (req, res, next) => {
     }
 });
 
-/* DELETE - Eliminar una tarea por ID (Validando user_id) */
+/* DELETE - Eliminar una tarea por ID */
 router.delete('/tareas/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
@@ -54,7 +54,7 @@ router.delete('/tareas/:id', async (req, res, next) => {
     }
 });
 
-/* PUT - Modificar/Actualizar una tarea por ID (Validando user_id) */
+/* PUT - Modificar/Actualizar una tarea por ID */
 router.put('/tareas/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
@@ -70,15 +70,12 @@ router.put('/tareas/:id', async (req, res, next) => {
     }
 });
 
-/*
- * GET - Listar todas las Novedades (Público)
- * Basado en M6U3
- */
+/* GET - Listar todas las Novedades */
 router.get('/novedades', async function(req, res, next) {
     try {
         let novedades = await novedadesModel.getNovedades();
 
-        // Mapeamos para agregar la URL de la imagen
+        // Agregar la URL de la imagen
         novedades = novedades.map(novedad_item => {
             if (novedad_item.img_id) {
                 const imagen = cloudinary.url(novedad_item.img_id, { 
@@ -87,12 +84,12 @@ router.get('/novedades', async function(req, res, next) {
                 });
                 return {
                     ...novedad_item, // (id, titulo, subtitulo, cuerpo)
-                    imagen // Se agrega la URL de la imagen
+                    imagen
                 }
             } else {
                 return {
                     ...novedad_item,
-                    imagen: '' // Si no hay imagen, un string vacío
+                    imagen: ''
                 }
             }
         });
@@ -105,9 +102,7 @@ router.get('/novedades', async function(req, res, next) {
     }
 });
 
-/*
- * POST - Envío de formulario de contacto
- */
+/* POST - Envío de formulario de contacto */
 router.post('/contacto', async (req, res) => {
     const mail = {
         from: process.env.SMTP_USER,
