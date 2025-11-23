@@ -1,87 +1,158 @@
-// /front/src/components/ContactForm.js
-'use client'; // Necesario porque usamos hooks
+"use client"
 
-import React, { useState } from 'react';
-import '../styles/Contacto.css'; // Asegurate que la ruta sea correcta
+import { useState } from "react"
+import "../styles/Contacto.css"
 
 export default function ContactForm() {
-  // Estado inicial del formulario
   const initialData = {
-    nombre: '',
-    email: '',
-    telefono: '',
-    comentario: ''
-  };
+    nombre: "",
+    email: "",
+    telefono: "",
+    comentario: "",
+  }
 
-  const [sending, setSending] = useState(false);
-  const [msg, setMsg] = useState('');
-  const [formData, setFormData] = useState(initialData);
+  const [sending, setSending] = useState(false)
+  const [msg, setMsg] = useState("")
+  const [formData, setFormData] = useState(initialData)
 
-  // Maneja los cambios en los inputs
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData(oldData => ({
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((oldData) => ({
       ...oldData,
-      [name]: value
-    }));
-  };
+      [name]: value,
+    }))
+  }
 
-  // Maneja el envío del formulario
-  const handleSubmit = async e => {
-    e.preventDefault();
-    setMsg('');
-    setSending(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setMsg("")
+    setSending(true)
 
     try {
-      const response = await fetch('http://localhost:5000/api/contacto', {
-        method: 'POST',
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contacto`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
-      });
+        body: JSON.stringify(formData),
+      })
 
-      const result = await response.json();
+      const result = await response.json()
 
-      setSending(false);
-      setMsg(result.message);
-      
+      setSending(false)
+      setMsg(result.message)
+
       if (!result.error) {
-        setFormData(initialData); // Limpiamos el form si salió bien
+        setFormData(initialData)
       }
-
     } catch (error) {
-      setSending(false);
-      setMsg('Hubo un error al enviar el formulario.');
+      setSending(false)
+      setMsg("Hubo un error al enviar el formulario.")
     }
-  };
+  }
 
   return (
-    <form action="/contacto" method="post" onSubmit={handleSubmit} className="formulario">
-      <p>
-        <label htmlFor="nombre">Nombre</label>
-        <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
-      </p>
-      <p>
-        <label htmlFor="email">Email</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-      </p>
-      <p>
-        <label htmlFor="telefono">Teléfono</label>
-        <input type="text" name="telefono" value={formData.telefono} onChange={handleChange} />
-      </p>
-      <p>
-        <label htmlFor="comentario">Comentario</label>
-        <textarea name="comentario" value={formData.comentario} onChange={handleChange} required />
-      </p>
-      
-      {/* Mensaje de feedback */}
-      {sending && <p>Enviando...</p>}
-      {msg && <p>{msg}</p>}
+    <div className="contact-form-card">
+      <h3 className="form-title">
+        <i className="fas fa-paper-plane"></i>
+        Envíanos un mensaje
+      </h3>
 
-      <p className="centrar">
-        <input type="submit" value="Enviar" />
-      </p>
-    </form>
-  );
+      <form onSubmit={handleSubmit} className="contact-form">
+        <div className="form-group">
+          <label htmlFor="nombre">
+            <i className="fas fa-user"></i>
+            Nombre completo
+          </label>
+          <div className="input-wrapper">
+            <i className="fas fa-user input-icon"></i>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              placeholder="Tu nombre completo"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">
+            <i className="fas fa-envelope"></i>
+            Correo electrónico
+          </label>
+          <div className="input-wrapper">
+            <i className="fas fa-envelope input-icon"></i>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="tu@email.com"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="telefono">
+            <i className="fas fa-phone"></i>
+            Teléfono
+          </label>
+          <div className="input-wrapper">
+            <i className="fas fa-phone input-icon"></i>
+            <input
+              type="text"
+              id="telefono"
+              name="telefono"
+              value={formData.telefono}
+              onChange={handleChange}
+              placeholder="+54 11 1234-5678"
+            />
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="comentario">
+            <i className="fas fa-comment-dots"></i>
+            Mensaje
+          </label>
+          <div className="input-wrapper">
+            <i className="fas fa-comment-dots input-icon textarea-icon"></i>
+            <textarea
+              id="comentario"
+              name="comentario"
+              value={formData.comentario}
+              onChange={handleChange}
+              placeholder="Escribe tu mensaje aquí..."
+              rows="5"
+              required
+            />
+          </div>
+        </div>
+
+        {sending && (
+          <div className="form-message sending">
+            <i className="fas fa-spinner fa-spin"></i>
+            Enviando mensaje...
+          </div>
+        )}
+
+        {msg && (
+          <div className={`form-message ${msg.includes("error") ? "error" : "success"}`}>
+            <i className={`fas ${msg.includes("error") ? "fa-exclamation-circle" : "fa-check-circle"}`}></i>
+            {msg}
+          </div>
+        )}
+
+        <button type="submit" className="submit-btn" disabled={sending}>
+          <i className="fas fa-paper-plane"></i>
+          <span>{sending ? "Enviando..." : "Enviar mensaje"}</span>
+        </button>
+      </form>
+    </div>
+  )
 }

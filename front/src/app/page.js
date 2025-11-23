@@ -3,18 +3,16 @@
 
 import { TaskList } from '../components/TaskList'; 
 import TaskForm from '../components/TaskForm'; 
-import React, { useState, useEffect } from 'react'; // Agregamos useEffect
-import '../styles/globals.css'; 
+import React, { useState, useEffect } from 'react';
+import './globals.css'; 
 
-const API_BASE_URL = 'http://localhost:5000/api/tareas'; 
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/tareas`; 
 
 export default function HomePage() {
-  const [tasks, setTasks] = useState([]); // Inicializa vacío
+  const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ----------------------------------------------------
-  // FUNCIÓN PARA CARGAR TAREAS (READ - GET)
-  // ----------------------------------------------------
+  /* FUNCIÓN PARA CARGAR TAREAS (READ - GET) */
   const fetchTasks = async () => {
     setLoading(true);
     try {
@@ -37,9 +35,7 @@ export default function HomePage() {
     fetchTasks();
   }, []); 
 
-  // ----------------------------------------------------
-  // FUNCIÓN PARA AÑADIR TAREA (CREATE - POST)
-  // ----------------------------------------------------
+  /* FUNCIÓN PARA AÑADIR TAREA (CREATE - POST) */
   const handleAddTask = async (formData) => {
     const newTaskPayload = {
       ...formData,
@@ -64,9 +60,7 @@ export default function HomePage() {
     }
   };
 
-  // ----------------------------------------------------
-  // FUNCIÓN PARA CAMBIAR ESTADO (UPDATE - PUT)
-  // ----------------------------------------------------
+  /* FUNCIÓN PARA CAMBIAR ESTADO (UPDATE - PUT) */
   const handleToggleStatus = async (id, currentStatus) => {
     const newStatus = currentStatus === 1 ? 0 : 1;
 
@@ -87,9 +81,7 @@ export default function HomePage() {
     }
   };
 
-  // ----------------------------------------------------
-  // FUNCIÓN PARA ELIMINAR TAREA (DELETE) // NUEVO
-  // ----------------------------------------------------
+  /* FUNCIÓN PARA ELIMINAR TAREA (DELETE) */
 
   const handleDeleteTask = async (id) => {
     if (!window.confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
@@ -98,12 +90,12 @@ export default function HomePage() {
 
     try {
       const response = await fetch(`${API_BASE_URL}/${id}`, {
-        method: 'DELETE', // Método DELETE
+        method: 'DELETE',
       });
       
       if (response.ok) {
         console.log(`Tarea con ID ${id} eliminada correctamente.`);
-        fetchTasks(); // Recarga la lista
+        fetchTasks(); // Recarga la lista para reflejar el cambio
       } else {
         throw new Error('Error al eliminar la tarea.');
       }

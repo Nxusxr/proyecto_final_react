@@ -1,27 +1,36 @@
-import Nav from '@/components/Nav';
-import '../styles/globals.css';
+import { Inter } from "next/font/google";
+import Nav from "@/components/Nav";
+import "./globals.css";
 
-// Metadatos para Next.js 13+
+// Configuración de la fuente Inter
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 export const metadata = {
-  title: 'Itinerarios App',
-  description: 'Gestión de tareas y planificación diaria.',
-}
+  title: "Itinerarios App | Gestión Inteligente",
+  description: "Gestión de tareas y planificación diaria moderna.",
+};
 
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+        {/* FontAwesome CDN */}
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
+        />
       </head>
-      <body>
-        {/* Componente de Navegación Global */}
-        <Nav /> 
-        
-        {/* Contenido de la página actual (pages/*.js) */}
-        <main>
-          {children}
-        </main>
+      <body className={`${inter.className}`}>
+        <Nav />
+        {children}
       </body>
     </html>
-  )
+  );
 }
