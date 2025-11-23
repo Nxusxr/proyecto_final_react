@@ -1,42 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Colores base - Azul oscuro */
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Acentos vibrantes */
+  --color-accent-primary: #3b82f6;   /* Azul brillante */
+  --color-accent-secondary: #8b5cf6; /* Violeta */
+  --color-accent-cyan: #06b6d4;
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Textos */
+  --color-text-primary: #f8fafc;   /* Blanco casi puro */
+  --color-text-secondary: #cbd5e1; /* Gris claro */
+  --color-text-muted: #94a3b8;     /* Gris apagado */
+  
+  /* Bordes */
+  --color-border: rgba(59, 130, 246, 0.2);
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  scroll-behavior: smooth;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.holder {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.main-content {
+  padding-top: 40px;
+  padding-bottom: 60px;
+  min-height: 80vh;
+}
+
+.page-subtitle {
+  font-size: 1.25rem;
+  color: var(--color-text-secondary);
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-tertiary);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-primary);
 }
