@@ -1,50 +1,114 @@
-/* src/styles/novedades.css */
+/* Clases específicas para el título */
 
-/* Estilos para el contenedor de cada novedad */
-.novedades-item {
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 30px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+.novedades-header {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 40px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.novedades-item h1 {
-  color: #2e64a1;
-  font-size: 24px;
-  margin-bottom: 5px;
+/* Grid de novedades */
+.novedades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
 }
 
-.novedades-item h2 {
-  color: #6da9ed;
-  font-size: 16px;
-  font-weight: 400;
-  margin-top: 0;
-  margin-bottom: 10px;
+/* Tarjeta individual de novedad "Dark Glass" */
+.novedad-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 
-.novedades-item img {
-  width: 650px;
+.novedad-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(59, 130, 246, 0.2);
+  border-color: var(--color-accent-primary);
+}
+
+/* Contenedor de imagen con efecto zoom */
+.novedad-image-wrapper {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.novedad-image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 4px;
-  margin: 15px 0;
-  display: block;
+  transition: transform 0.5s ease;
 }
 
-.novedades-item p {
-  font-size: 14px;
+.novedad-card:hover .novedad-image {
+  transform: scale(1.1);
+}
+
+/* Contenido de la tarjeta */
+.novedad-content {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.novedad-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.novedad-subtitle {
+  font-size: 0.9rem;
+  color: var(--color-accent-cyan); /* Color acento cian */
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.novedad-body {
+  font-size: 0.95rem;
   line-height: 1.6;
-  color: #333;
+  color: var(--color-text-secondary); /* Gris claro */
 }
 
-/* Línea de separación entre novedades */
-.novedades-item hr {
-  margin: 20px 0 0 0;
+.novedad-body p {
+  margin: 0 0 12px 0;
+}
+
+/* Separador sutil */
+.novedad-card hr {
   border: 0;
-  border-top: 1px solid #eee;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 20px 0;
 }
 
-/* Si tu página novedades.js importa los estilos, recuerda incluir la importación */
-/* en src/app/novedades/page.js */
-/* import '../../styles/novedades.css'; */
+/* Diseño responsivo */
+@media (max-width: 768px) {
+  .novedades-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .novedades-header {
+    font-size: 2rem;
+  }
+}

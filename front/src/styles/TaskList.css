@@ -1,146 +1,294 @@
-/* --- Estilos para TaskList --- */
+/* Variables locales */
+:root {
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(59, 130, 246, 0.2);
+  --card-bg: rgba(15, 23, 42, 0.6);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-color: #3b82f6;
+}
+
+/* Contenedor Principal "Dark Glass" */
 .task-list-container {
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  padding: 30px;
+  border: 1px solid var(--glass-border);
 }
 
+/* Título con contador */
 .task-list-title {
-    font-size: 1.5rem; /* H2 */
-    font-weight: 700;
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-    color: var(--color-primary, #2e64a1);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--glass-border);
 }
 
-.task-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.task-list-title i {
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
 }
 
-.task-list > li:not(:last-child) .task-item {
-    border-bottom: 1px solid #f0f0f0;
+.task-count {
+  margin-left: auto;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  font-size: 0.9rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
 }
 
-.task-list-empty {
-    padding: 40px;
-    text-align: center;
-    color: #888;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+/* Grid de tarjetas */
+.task-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.task-list-empty p {
-    margin: 0;
+/* Tarjeta de Tarea Individual (Oscura) */
+.task-item-card {
+  position: relative;
+  background: var(--card-bg); /* Fondo oscuro */
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
 }
 
-.task-list-empty-subtitle {
-    font-size: 0.9rem;
-    margin-top: 5px !important;
+.task-item-card:hover {
+  transform: translateY(-2px);
+  background: rgba(30, 41, 59, 0.8); /* Un poco más claro si pasa el mouse */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
-/* --- Estilos para TaskItem --- */
-.task-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    transition: background-color 0.1s ease;
+/* Borde lateral de prioridad */
+.priority-border {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
 }
 
-.task-item:hover {
-    background-color: #f9f9f9;
+.priority-high { background: linear-gradient(180deg, #ef4444, #b91c1c); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
+.priority-medium { background: linear-gradient(180deg, #f59e0b, #b45309); box-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
+.priority-low { background: linear-gradient(180deg, #10b981, #047857); box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+
+.task-item-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 20px 20px 25px;
 }
 
-/* Indicador de Prioridad */
-.priority-indicator {
-    width: 6px;
-    height: 40px;
-    border-radius: 4px;
-    flex-shrink: 0;
+/* Checkbox visual estilo Neon */
+.task-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--text-muted);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  background: transparent;
 }
 
-.priority-high {
-    background-color: #d9534f; /* Rojo */
+.task-checkbox:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
 }
 
-.priority-medium {
-    background-color: #f0ad4e; /* Amarillo/Naranja */
+.task-checkbox.checked {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border-color: transparent;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
 
-.priority-low {
-    background-color: #5cb85c; /* Verde */
+.task-checkbox i {
+  color: white;
+  font-size: 0.75rem;
 }
 
-.task-content {
-    flex-grow: 1;
-    min-width: 0;
+.task-main-content {
+  flex-grow: 1;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 16px;
 }
 
 .task-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333;
-    margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.task-description {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 3px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.task-meta {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    flex-shrink: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main); /* Texto blanco */
+  margin: 0;
+  transition: all 0.2s ease;
 }
 
 .task-time {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--color-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
+.task-description {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+
+.task-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Categorías (Badges) */
 .task-category {
-    font-size: 0.75rem;
-    font-weight: 500;
-    background-color: #e6f0ff;
-    color: var(--color-primary);
-    padding: 2px 6px;
-    border-radius: 12px;
-    margin-top: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Tarea completada */
+/* Colores de categoría adaptados a dark mode (más oscuros y saturados) */
+.task-category.personal { background: rgba(30, 64, 175, 0.3); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+.task-category.work { background: rgba(159, 18, 57, 0.3); color: #f9a8d4; border: 1px solid rgba(244, 114, 182, 0.3); }
+.task-category.study { background: rgba(107, 33, 168, 0.3); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.3); }
+.task-category.health { background: rgba(6, 95, 70, 0.3); color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.3); }
+
+.task-completed-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #34d399;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
+}
+
+/* Botones de acción */
+.task-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.05); /* Fondo de contraste sutil */
+}
+
+.complete-btn { color: #60a5fa; }
+.complete-btn:hover { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border-color: rgba(59, 130, 246, 0.4); }
+
+.delete-btn { color: #f87171; }
+.delete-btn:hover { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border-color: rgba(239, 68, 68, 0.4); }
+
+/* Efecto tarea completada */
 .task-completed .task-title {
-    text-decoration: line-through;
-    color: #aaa;
+  text-decoration: line-through;
+  color: #475569; /* Gris muy oscuro */
 }
+
 .task-completed .task-description {
-    color: #999;
+  color: #475569;
 }
-.task-completed .priority-indicator {
-    background-color: #ccc !important;
+
+.task-completed .task-item-card {
+  opacity: 0.6;
+  background: rgba(15, 23, 42, 0.4);
+  border-color: transparent;
+}
+
+/* Estado Vacío */
+.task-list-empty {
+  padding: 60px 40px;
+  text-align: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: #10b981;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.4));
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 10px 0;
+}
+
+.empty-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin: 0;
 }
 
 /* Responsividad */
-@media (max-width: 600px) {
-    .task-item {
-        padding: 10px;
-    }
-    .task-meta {
-        /* Ocultar categoría en móviles si es necesario para ahorrar espacio */
-    }
+@media (max-width: 640px) {
+  .task-list-container {
+    padding: 20px;
+  }
+  .task-item-content {
+    padding: 15px;
+  }
+  .task-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .task-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
 }

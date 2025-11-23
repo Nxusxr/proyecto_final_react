@@ -1,55 +1,256 @@
-/* Variables de color de globals.css */
-/* nav background-color: #6da9ed; (según PDF) */
-:root {
-    --color-secondary: #6da9ed;
-    --color-primary: #2e64a1;
+/* Navbar moderna con efecto glassmorphism */
+.modern-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.7); /* Azul oscuro semi-transparente */
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-nav {
-    background-color: var(--color-secondary);
-    margin-bottom: 20px;
-    padding: 5px 0;
+.modern-nav.scrolled {
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 }
 
-.nav-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex; /* Mostrar enlaces en línea */
-    justify-content: flex-start; /* Alinear a la izquierda */
-    flex-wrap: wrap; 
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+/* Brand/Logo */
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+  transition: transform 0.2s ease;
+}
+
+.brand-link:hover {
+  transform: translateY(-2px);
+}
+
+.brand-icon {
+  font-size: 1.5rem;
+  color: var(--color-accent-primary);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.brand-text {
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Navegación de Escritorio */
+.desktop-nav {
+  display: flex;
+  list-style: none;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-item {
-    margin: 0;
-    padding: 0;
+  position: relative;
 }
 
 .nav-link {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-radius: 0.5rem;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.2); 
+  color: var(--color-text-primary);
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
 }
 
 .nav-link.active {
-    background-color: var(--color-primary); 
-    font-weight: 600;
+  color: var(--color-text-primary);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.15));
+  font-weight: 600;
 }
 
-/* Responsividad simple */
-@media (max-width: 600px) {
-    .nav-list {
-        justify-content: space-around;
-    }
-    .nav-link {
-        padding: 8px 10px;
-        font-size: 0.9rem;
-    }
+.nav-icon {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-icon {
+  transform: scale(1.1);
+}
+
+.nav-link.active .nav-icon {
+  color: var(--color-accent-primary);
+}
+
+/* Indicador activo */
+.active-indicator {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+  border-radius: 2px 2px 0 0;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 30px;
+    opacity: 1;
+  }
+}
+
+/* Botón de Menú para movil */
+.mobile-menu-button {
+  display: none;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--color-text-primary);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-button:hover {
+  background: rgba(59, 130, 246, 0.2);
+  transform: scale(1.05);
+}
+
+.mobile-menu-button:active {
+  transform: scale(0.95);
+}
+
+/* Navegación movil */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.mobile-nav.open {
+  max-height: 400px;
+  opacity: 1;
+}
+
+.mobile-nav .nav-list {
+  list-style: none;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobile-nav .nav-link {
+  padding: 1rem 1.25rem;
+  justify-content: flex-start;
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 1rem;
+    height: 60px;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  .brand-link {
+    font-size: 1.1rem;
+  }
+
+  .brand-icon {
+    font-size: 1.25rem;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+  }
+
+  .mobile-nav {
+    top: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-text {
+    display: none;
+  }
+
+  .nav-container {
+    padding: 0 0.75rem;
+  }
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
