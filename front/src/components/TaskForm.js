@@ -1,114 +1,119 @@
-    'use client'; 
+"use client"
 
-import React, { useState } from 'react';
-import '../styles/TaskForm.css'; // Importamos el archivo de estilos CSS
+import { useState } from "react"
+import "../styles/TaskForm.css"
 
 const initialFormState = {
-  title: '',
-  description: '',
-  date: new Date().toISOString().split('T')[0], // Fecha de hoy por defecto
-  time: '10:00',
-  priority: 'medium',
-  category: 'personal',
-};
+  title: "",
+  description: "",
+  date: new Date().toISOString().split("T")[0],
+  time: "10:00",
+  priority: "medium",
+  category: "personal",
+}
 
 export default function TaskForm({ onAddTask }) {
-  const [formData, setFormData] = useState(initialFormState);
+  const [formData, setFormData] = useState(initialFormState)
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
+    const { name, value } = e.target
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    // Simulación de creación de Tarea con un ID temporal
+    e.preventDefault()
+
     const newTask = {
       ...formData,
-      status: 0, // Pendiente por defecto
-    };
-    
-    // Llama a la función que viene por prop para manejar la lógica
-    onAddTask(newTask);
+      status: 0,
+    }
 
-    // Resetea el formulario
-    setFormData(initialFormState);
-  };
+    onAddTask(newTask)
+    setFormData(initialFormState)
+  }
 
   return (
     <form onSubmit={handleSubmit} className="task-form-container">
-      <h2 className="form-title">Agregar Nueva Tarea</h2>
-      
+      <h2 className="form-title">
+        <i className="fa fa-plus-circle"></i>
+        Agregar Nueva Tarea
+      </h2>
+
       <div className="form-grid">
-        {/* Título */}
         <div className="form-group">
-          <label htmlFor="title">Título</label>
-          <input 
-            type="text" 
-            id="title" 
-            name="title" 
-            value={formData.title} 
-            onChange={handleChange} 
-            required 
+          <label htmlFor="title">
+            <i className="fa fa-pencil"></i> Título
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
             className="input-field"
+            placeholder="Nombre de la tarea"
           />
         </div>
-        
-        {/* Fecha */}
+
         <div className="form-group">
-          <label htmlFor="date">Fecha</label>
-          <input 
-            type="date" 
-            id="date" 
-            name="date" 
-            value={formData.date} 
-            onChange={handleChange} 
-            required 
+          <label htmlFor="date">
+            <i className="fa fa-calendar"></i> Fecha
+          </label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
             className="input-field"
           />
         </div>
 
-        {/* Hora */}
         <div className="form-group">
-          <label htmlFor="time">Hora</label>
-          <input 
-            type="time" 
-            id="time" 
-            name="time" 
-            value={formData.time} 
-            onChange={handleChange} 
+          <label htmlFor="time">
+            <i className="fa fa-clock"></i> Hora
+          </label>
+          <input
+            type="time"
+            id="time"
+            name="time"
+            value={formData.time}
+            onChange={handleChange}
             className="input-field"
           />
         </div>
 
-        {/* Prioridad */}
         <div className="form-group">
-          <label htmlFor="priority">Prioridad</label>
-          <select 
-            id="priority" 
-            name="priority" 
-            value={formData.priority} 
-            onChange={handleChange} 
+          <label htmlFor="priority">
+            <i className="fa fa-flag"></i> Prioridad
+          </label>
+          <select
+            id="priority"
+            name="priority"
+            value={formData.priority}
+            onChange={handleChange}
             className="input-field"
           >
-            <option value="high">Alta</option>
-            <option value="medium">Media</option>
-            <option value="low">Baja</option>
+            <option value="high">🔴 Alta</option>
+            <option value="medium">🟡 Media</option>
+            <option value="low">🟢 Baja</option>
           </select>
         </div>
 
-        {/* Categoría */}
         <div className="form-group">
-          <label htmlFor="category">Categoría</label>
-          <select 
-            id="category" 
-            name="category" 
-            value={formData.category} 
-            onChange={handleChange} 
+          <label htmlFor="category">
+            <i className="fa fa-tag"></i> Categoría
+          </label>
+          <select
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
             className="input-field"
           >
             <option value="personal">Personal</option>
@@ -117,30 +122,29 @@ export default function TaskForm({ onAddTask }) {
             <option value="health">Salud</option>
           </select>
         </div>
-
       </div>
 
-      {/* Descripción */}
       <div className="form-group wide">
-        <label htmlFor="description">Descripción</label>
-        <textarea 
-          id="description" 
-          name="description" 
-          value={formData.description} 
-          onChange={handleChange} 
-          rows="3" 
+        <label htmlFor="description">
+          <i className="fa fa-align-left"></i> Descripción
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          rows="3"
           className="input-field"
+          placeholder="Detalles adicionales..."
         />
       </div>
 
       <div className="form-actions">
-        <button 
-          type="submit" 
-          className="submit-button"
-        >
+        <button type="submit" className="submit-button">
+          <i className="fa fa-save"></i>
           Guardar Tarea
         </button>
       </div>
     </form>
-  );
+  )
 }
